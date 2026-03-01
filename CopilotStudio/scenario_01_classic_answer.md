@@ -1,4 +1,4 @@
-# Scenario 1: Classic Answer Agent
+# Scenario 1: Agent with Classic Answer
 
 ## What It Is
 
