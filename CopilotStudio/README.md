@@ -110,6 +110,6 @@ This tool is maintained on a **best-efforts basis** as a personal project. There
 
 ---
 
-*Document version: 1.0 | Author: [Your Name] | Personal capacity only*
+*Document version: 1.0 | Author: Prashant Rangi | Personal capacity only*
 
 *For questions about this disclaimer, contact the author directly as a private individual.*
