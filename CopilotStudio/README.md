@@ -52,7 +52,7 @@ This tool is provided for **informational and educational purposes only**. It sh
 > Before making any commercial recommendation or purchase decision:
 > - Cross-reference all credit rates against [Microsoft's official Copilot Studio documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing).
 > - Consult a Microsoft-certified partner or your Microsoft account team for volume licensing advice.
-> - Use the official [Microsoft agent usage estimator](https://microsoft.github.io/copilot-studio-estimator/) as a complementary reference.
+
 
 ---
 
