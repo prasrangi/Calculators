@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>qlookup</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+        <style>
+            body {
+                background-color: #2d2d2d;
+                color: #fff;
+                font-family: 'Bitter', serif;
+            }
+            .header-dark {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+                padding: 20px 0;
+            }
+            .navbar-brand {
+                font-size: 28px;
+                font-weight: bold;
+            }
+            .hero {
+                padding: 60px 0;
+            }
+            .alert-info {
+                background-color: #e8f4f8;
+                color: #333;
+                border-left: 4px solid #17a2b8;
+            }
+            .alert-error {
+                background-color: #f8e8e8;
+                color: #333;
+                border-left: 4px solid #dc3545;
+            }
+            .form-control {
+                background-color: #fff;
+                border: none;
+                color: #333;
+            }
+            .btn-outline-dark {
+                color: #333;
+                border-color: #333;
+            }
+            .btn-outline-dark:hover {
+                background-color: #333;
+                color: #fff;
+            }
+            .results-table {
+                background-color: #3d3d3d;
+                color: #fff;
+                border: 1px solid #555;
+            }
+            .results-table th {
+                background-color: #2d2d2d;
+                border-color: #555;
+            }
+            .results-table td {
+                border-color: #555;
+            }
+            code {
+                background-color: #2d2d2d;
+                color: #66d9ef;
+                padding: 2px 4px;
+            }
+            pre {
+                margin: 0;
+                word-break: break-all;
+            }
+        </style>
+    </head>
+    <!-- TODO: alphanumerical characters seem to be breaking the queries for some reason? -->
+    <!-- TODO: maybe remove the company data at /flag -->
+    <body>
+        <div>
+            <div class="header-dark">
+                <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+                    <div class="container"><a class="navbar-brand" href="#">qlookup</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse"
+                            id="navcol-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item" role="presentation" href="#">Flag</a>
+                                        <a class="dropdown-item" role="presentation" href="#">Secret keys</a>
+                                        <a class="dropdown-item" role="presentation" href="#">Exam solutions</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <form class="form-inline mr-auto"></form>
+                            <span class="navbar-text"><a href="#" class="login">Log In</a></span>
+                            <a class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+                        </div>
+                    </div>
+                </nav>
+                <div class="container hero">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <h1 class="text-center">QuoccaBank Client Lookup</h1>
+
+                            <form method="POST" action="/">
+                                <div class="form-inline">
+                                    <input type="text" class="form-control p-4 rounded-0" name="query" style="width: 90%" placeholder="www.google.com" value="{{ query }}">
+                                    <button type="submit" class="btn btn-outline-dark p-2 rounded-0" style="width: 10%; height: 50px">Query</button>
+                                </div>
+                            </form>
+
+                            {% if result is not none %}
+                                {% if result %}
+                                    {% if result[0].get('error') %}
+                                        <div class="alert alert-error p-4 rounded-0" role="alert">
+                                            <strong>Error:</strong> <code><pre>{{ result[0]['error'] }}</pre></code>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info p-4 rounded-0" role="alert">
+                                            <strong>Results for:</strong> <code><pre>"{{ query }}"</pre></code>
+                                        </div>
+                                        <table class="table results-table rounded-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Account Type</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for row in result %}
+                                                <tr>
+                                                    <td>{{ row['id'] }}</td>
+                                                    <td>{{ row['name'] }}</td>
+                                                    <td>{{ row['email'] }}</td>
+                                                    <td>{{ row['account_type'] }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                {% else %}
+                                    <div class="alert alert-info p-4 rounded-0" role="alert">
+                                        results for: <code><pre>"{{ query }}" - no results found</pre></code>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="alert alert-info p-4 rounded-0" role="alert">
+                                    results for: <code><pre>"no query found lol"</pre></code>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
